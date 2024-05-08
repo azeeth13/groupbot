@@ -17,12 +17,24 @@ from button import *
 dp = Dispatcher()
 
 
-@dp.message(CommandStart(),F.chat.type=="private")
+@dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
   
 
-    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!",reply_markup=menu)
- 
+    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!\nSiz bu botni guruhlarda ishlata olasiz 👥\nAgar bot haqida ma'lumot kerak bo'lsa OPTIONS tugmasini bosing\nBog'lanish uchun CONTACT ga murojat qiling!😉",reply_markup=menu)
+
+
+@dp.callback_query(F.data == "yes")
+async def comm(callback: CallbackQuery):
+    await callback.message.answer(
+        text="""ASOSIY BUYRUQLAR
+
+/ban Buyruqi bot tanlagan odamni guruhda chqaradi .
+
+/unban Buyruqi Shu odamni qayta qo'shilishga ruhsat beradi
+
+"""
+    )
 
 
 @dp.message(F.chat.type=="supergroup",F.new_chat_members)
